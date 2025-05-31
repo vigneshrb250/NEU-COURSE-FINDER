@@ -69,5 +69,3 @@ def home():
 
     return render_template("index.html", response=response_text, sources=source_courses)
 
-if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
