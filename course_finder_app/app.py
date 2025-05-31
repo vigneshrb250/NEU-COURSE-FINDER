@@ -1,4 +1,6 @@
 import os
+import requests
+import zipfile
 from flask import Flask, request, render_template, redirect, url_for, session
 from llama_index.core import VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -14,11 +16,25 @@ os.environ["HUGGINGFACE_API_TOKEN"] = os.getenv("HUGGINGFACE_API_TOKEN")
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
-# Set up Chroma DB
-# db = chromadb.PersistentClient(path=r"C:\Users\vigne\Desktop\Higher studies\Northeastern University Boston\Courses\Semester 2\DS5983(LLMs)\NEU-COURSE-FINDER\NeuCourses_Chroma_db")
+# Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "..", "NeuCourses_Chroma_db")
-db = chromadb.PersistentClient(path=DB_PATH)
+DB_DIR = os.path.join(BASE_DIR, "..", "NeuCourses_Chroma_db")
+ZIP_URL = "https://huggingface.co/datasets/vignesh0007/neu-course-db/resolve/main/chroma_db.zip"
+ZIP_PATH = os.path.join(BASE_DIR, "chroma_db.zip")
+
+# Download and unzip if DB is not already present
+if not os.path.exists(DB_DIR):
+    print("Downloading Chroma DB...")
+    response = requests.get(ZIP_URL)
+    with open(ZIP_PATH, "wb") as f:
+        f.write(response.content)
+    print("Extracting Chroma DB...")
+    with zipfile.ZipFile(ZIP_PATH, "r") as zip_ref:
+        zip_ref.extractall(DB_DIR)
+    print("Done.")
+
+# Set up Chroma DB
+db = chromadb.PersistentClient(path=DB_DIR)
 chroma_collection = db.get_or_create_collection("NeuCourses_Chroma_db")
 vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
 
@@ -39,13 +55,12 @@ def home():
         # Save to session temporarily
         session["response_text"] = str(response)
         session["source_courses"] = [
-    (
-        node.node.metadata.get("title", "Unknown Course"),
-        node.node.text  
-    )
-    for node in response.source_nodes
-]
-
+            (
+                node.node.metadata.get("title", "Unknown Course"),
+                node.node.text
+            )
+            for node in response.source_nodes
+        ]
         return redirect(url_for("home"))  # Redirect after POST
 
     # GET request: retrieve and clear session data
@@ -56,4 +71,3 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
-
