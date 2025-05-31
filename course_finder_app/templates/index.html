@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEU Course Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-primary">📘 NEU Course Finder</h1>
+
+        <form method="POST" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="user_query" class="form-control" placeholder="What do you want to learn?" required>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if response %}
+            <div class="alert alert-info">
+                <strong>Answer:</strong> {{ response }}
+            </div>
+
+            <h3 class="mt-5">🎯 Matched Courses</h3>
+            {% for title, snippet in sources %}
+                <div class="card my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ title }}</h5>
+                        <details>
+                               <summary>View course description</summary>
+                               <p class="course-snippet mt-2">{{ snippet }}</p>
+                        </details>
+
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

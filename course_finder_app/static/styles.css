@@ -1,0 +1,14 @@
+body {
+    padding: 30px;
+    background-color: #f8f9fa;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+.card-title {
+    font-weight: bold;
+}
+.course-snippet {
+    font-family: 'Segoe UI', sans-serif;
+}
