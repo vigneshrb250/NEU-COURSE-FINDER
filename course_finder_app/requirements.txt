@@ -1,3 +1,4 @@
+numpy<2
 Flask==3.1.1
 gunicorn
 chromadb==1.0.11
@@ -11,6 +12,5 @@ requests==2.32.3
 pandas==2.2.3
 tqdm==4.67.1
 
-# Use CPU-only torch version to avoid downloading 2GB+ CUDA dependencies
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.1.2+cpu
