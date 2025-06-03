@@ -18,7 +18,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 # Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_DIR = os.path.join(BASE_DIR, "..", "NeuCourses_Chroma_db")
+DB_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "chroma_db", "NeuCourses_Chroma_db"))
 ZIP_URL = "https://huggingface.co/datasets/vignesh0007/neu-course-db/resolve/main/chroma_db.zip"
 ZIP_PATH = os.path.join(BASE_DIR, "chroma_db.zip")
 
@@ -30,7 +30,7 @@ if not os.path.exists(DB_DIR):
         f.write(response.content)
     print("Extracting Chroma DB...")
     with zipfile.ZipFile(ZIP_PATH, "r") as zip_ref:
-        zip_ref.extractall(DB_DIR)
+        zip_ref.extractall(os.path.join(BASE_DIR, "..", "chroma_db"))
     print("Done.")
 
 # Set up Chroma DB
