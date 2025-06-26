@@ -4,7 +4,7 @@ NEU Course Finder is an end-to-end **Retrieval-Augmented Generation (RAG)** appl
 
 ---
 
-## 🚀 Features
+## Features
 
 - Natural language queries about NEU courses
 - Embeddings via `BAAI/bge-small-en-v1.5`
@@ -19,7 +19,7 @@ NEU Course Finder is an end-to-end **Retrieval-Augmented Generation (RAG)** appl
 
 The NEU Course Finder follows a classic **Retrieval-Augmented Generation (RAG)** architecture:
 
-### 🔍 Components:
+### Components:
 
 - **Web Scraping**: Extract NEU course titles and descriptions from the university website.
 - **Embedding**: Convert course descriptions into vector representations using `BAAI/bge-small-en-v1.5`.
