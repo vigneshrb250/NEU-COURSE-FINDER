@@ -39,7 +39,7 @@ chroma_collection = db.get_or_create_collection("NeuCourses_Chroma_db")
 vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
 
 # Load index from stored vector DB
-embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+embed_model = HuggingFaceEmbedding(model_name="intfloat/multilingual-e5-base")
 index = VectorStoreIndex.from_vector_store(vector_store, embed_model=embed_model)
 
 # Use Zephyr-7B from HuggingFace Inference API
